@@ -26,6 +26,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clear, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->del, &QPushButton::clicked, this, &MainWindow::del);
     connect(ui->equals, &QPushButton::clicked, this, &MainWindow::calculate);
+    connect(ui->next, &QPushButton::clicked, this, &MainWindow::next);
+    connect(ui->stop, &QPushButton::clicked, this, &MainWindow::stop);
+    connect(ui->run, &QPushButton::clicked, this, &MainWindow::run);
+    connect(ui->mc, &QPushButton::clicked, this, &MainWindow::mc);
+    connect(ui->mr, &QPushButton::clicked, this, &MainWindow::mr);
+    connect(ui->mp, &QPushButton::clicked, this, &MainWindow::mp);
+    connect(ui->mm, &QPushButton::clicked, this, &MainWindow::mm);
+
+    updateUi();
+}
+
+void showError(std::exception* exception) {
+    QMessageBox message;
+    message.setText(exception->what());
+    message.exec();
 }
 
 MainWindow::~MainWindow()
@@ -34,24 +49,103 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::push(char character) {
-    ui->result->setText(ui->result->text() + character);
+    facade.setExpression((ui->result->text() + character).toStdString());
+    updateUi();
 }
 
 void MainWindow::clear() {
-    ui->result->setText("");
+    facade.setExpression("");
+    updateUi();
 }
 
 void MainWindow::del() {
-    ui->result->setText(ui->result->text().mid(0, ui->result->text().size() - 1));
+    facade.setExpression(ui->result->text().mid(0, ui->result->text().size() - 1).toStdString());
+    updateUi();
+}
+
+void MainWindow::updateUi() {
+    ui->d0->setEnabled(!facade.isCommands());
+    ui->d1->setEnabled(!facade.isCommands());
+    ui->d2->setEnabled(!facade.isCommands());
+    ui->d3->setEnabled(!facade.isCommands());
+    ui->d4->setEnabled(!facade.isCommands());
+    ui->d5->setEnabled(!facade.isCommands());
+    ui->d6->setEnabled(!facade.isCommands());
+    ui->d7->setEnabled(!facade.isCommands());
+    ui->d8->setEnabled(!facade.isCommands());
+    ui->d9->setEnabled(!facade.isCommands());
+    ui->point->setEnabled(!facade.isCommands());
+    ui->add->setEnabled(!facade.isCommands());
+    ui->minus->setEnabled(!facade.isCommands());
+    ui->divide->setEnabled(!facade.isCommands());
+    ui->multiply->setEnabled(!facade.isCommands());
+    ui->openBracket->setEnabled(!facade.isCommands());
+    ui->closeBracket->setEnabled(!facade.isCommands());
+    ui->clear->setEnabled(!facade.isCommands());
+    ui->del->setEnabled(!facade.isCommands());
+    ui->equals->setEnabled(!facade.isCommands());
+    ui->run->setEnabled(!facade.isCommands());
+    ui->next->setEnabled(facade.isCommands());
+    ui->stop->setEnabled(facade.isCommands());
+    ui->mr->setEnabled(!facade.isCommands());
+    ui->result->setText(QString::fromStdString(facade.getExpression()));
 }
 
 void MainWindow::calculate() {
     try {
-        std::string result = Facade().calculate(ui->result->text().toStdString());
-        ui->result->setText(QString::fromStdString(result));
+        facade.calculate();
     } catch (InvalidExpressionException& err) {
-        QMessageBox message;
-        message.setText(err.what());
-        message.exec();
+        showError(&err);
     }
+    updateUi();
+}
+
+void MainWindow::run() {
+    try {
+        facade.run();
+        next();
+    } catch (InvalidExpressionException& err) {
+        showError(&err);
+    }
+    updateUi();
+}
+
+void MainWindow::next() {
+    facade.next();
+    updateUi();
+}
+
+void MainWindow::stop() {
+    facade.stop();
+    updateUi();
+}
+
+void MainWindow::mc() {
+    facade.mc();
+    updateUi();
+}
+
+void MainWindow::mr() {
+    try {
+        facade.mr();
+    } catch (InvalidExpressionException& err) {
+        showError(&err);
+    }
+    updateUi();
+}
+void MainWindow::mp() {
+    try {
+        facade.mp();
+    } catch (InvalidExpressionException& err) {
+        showError(&err);
+    }
+    updateUi();
+}
+void MainWindow::mm() {
+    try {
+        facade.mm();
+    } catch (InvalidExpressionException& err) {
+        showError(&err);
+    }
+    updateUi();
 }

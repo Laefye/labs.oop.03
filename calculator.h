@@ -1,19 +1,19 @@
-#pragma once
+#ifndef CALCULATOR_H
+#define CALCULATOR_H
 #include <vector>
-#include <string>
-#include "operators/operatorcreator.h"
-#include "contstants.h"
+#include "operators/operator.h"
 
-class Calculator {
+class Calculator
+{
 private:
-    std::string expression;
-
-    const std::string operators = OPERATORS;
-    void split(std::vector<std::string>& parts);
-    double toDouble(std::string str);
-    std::string toString(double value);
+    std::vector<double> stack;
 public:
-    Calculator(const std::string& expression);
+    Calculator();
 
-    std::string calculate();
+    void pushStack(double number);
+    void calculate(Operator* op);
+
+    double top();
 };
+
+#endif // CALCULATOR_H

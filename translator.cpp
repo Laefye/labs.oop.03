@@ -19,6 +19,9 @@ std::string Translator::join(std::vector<std::string>& parts) {
 }
 
 std::string Translator::translate() {
+    if (this->input.length() == 0) {
+        return "";
+    }
     OperatorCreator operatorCreator;
     std::vector<std::string> output;
     std::vector<std::string> stack;

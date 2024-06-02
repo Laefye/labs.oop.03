@@ -7,3 +7,7 @@ double Minus::execute(double left, double right) {
 int Minus::priority() {
     return 1;
 }
+
+Operator* Minus::clone() {
+    return new Minus(*this);
+}

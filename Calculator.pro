@@ -10,30 +10,40 @@ CONFIG += c++14
 
 SOURCES += \
     calculator.cpp \
+    commands/command.cpp \
+    commands/operatorcommand.cpp \
+    commands/pushstackcommand.cpp \
     facade.cpp \
     main.cpp \
     mainwindow.cpp \
+    memory.cpp \
     operators/add.cpp \
     operators/divide.cpp \
     operators/minus.cpp \
     operators/multiply.cpp \
     operators/operatorcreator.cpp \
+    parser.cpp \
     translator.cpp \
     validator.cpp
 
 HEADERS += \
     calculator.h \
+    commands/command.h \
+    commands/operatorcommand.h \
+    commands/pushstackcommand.h \
     contstants.h \
     exceptions/invalidexpressionexception.h \
     exceptions/unknownoperatorexception.h \
     facade.h \
     mainwindow.h \
+    memory.h \
     operators/add.h \
     operators/divide.h \
     operators/minus.h \
     operators/multiply.h \
     operators/operator.h \
     operators/operatorcreator.h \
+    parser.h \
     translator.h \
     validator.h
 

@@ -7,3 +7,7 @@ double Add::execute(double left, double right) {
 int Add::priority() {
     return 1;
 }
+
+Operator* Add::clone() {
+    return new Add(*this);
+}

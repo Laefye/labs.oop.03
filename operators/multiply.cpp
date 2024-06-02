@@ -7,3 +7,7 @@ double Multiply::execute(double left, double right) {
 int Multiply::priority() {
     return 2;
 }
+
+Operator* Multiply::clone() {
+    return new Multiply(*this);
+}

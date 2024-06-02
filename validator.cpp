@@ -26,7 +26,7 @@ void Validator::validate() {
         } else if ((pos = operators.find(character)) != std::string::npos) {
             if ((i == 0 || expression[i - 1] == '(') && expression[i] == '-') {
                 continue;
-            } if (i == 0 || operators.find(expression[i - 1]) != std::string::npos || expression[i - 1] == '(') {
+            } if (i == 0 || operators.find(expression[i - 1]) != std::string::npos || i == expression.length() - 1 || expression[i - 1] == '(') {
                 throw InvalidExpressionException();
             }
         } else if ((pos = brackets.find(character)) != std::string::npos) {
